@@ -1,0 +1,33 @@
+Name: Shengjie Quan
+
+1.
+<select> :== select <block seq> end;
+<block seq> :== <block> | <block> or <block seq>
+<block> :== <cond> -> <stmt seq>
+<cond> means same as in class
+<stmt seq> means same as in class
+
+(Note: or in BNF above is actually ||)
+
+2.
+void execSelect(int n) {
+	// check PT[n,1] to make sure it is select node
+	execBlockSeq(PT[n, 3]);
+}
+
+void execBlockSeq(int n) {
+	// check PT[n, 1] to make sure it is block seq node
+	bool b = execBlock(PT[n, 3]);
+	if(!b && PT[n, 2] == 2) {
+		execBlockSeq(PT[n, 4]);
+	}
+}
+
+bool execBlock(int n) {
+	// check PT[n, 1] to make sure it is block node
+	bool b = evalCond(PT[n, 3]);
+	if(b) {
+		execSS(PT[n, 4]);
+	}
+	return b;
+}

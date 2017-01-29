@@ -1,0 +1,92 @@
+Name: Shengjie Quan
+CSE 3341 HW 3
+1.
+abstract class SS {
+	public abstract void Parse();
+	public abstract void Print();
+	public abstract void Excute();
+}
+
+class Assign extend SS {
+	@Overide
+	public void Parse() {
+		// Parse a Assign statement
+	}
+	@Overide
+	public void Print() {
+		// Print a Assign statement
+	}
+	@Overide
+	public void Excute() {
+		// Print a Assign statement
+	}
+}
+
+class If extend SS {
+	@Overide
+	public void Parse() {
+		// Parse a If statement
+	}
+	@Overide
+	public void Print() {
+		// Print a If statement
+	}
+	@Overide
+	public void Excute() {
+		// Print a If statement
+	}
+}
+
+......
+
+class Stmt {
+	private SS ss = null;
+	private Stmt stmt = null;
+
+	public void Parse() {
+		// according to the current token 
+		// determing it is a assign statement
+		// or if statement, etc.
+		if(/* It is a assign statement */) {
+			ss = new Assign();
+		} else if(/* It is a if statement */) {
+			ss = new If();
+		} else if(...){
+			...
+		}...
+		ss.Parse();
+		if(/* not end of Statment sequence */) {
+			stmt = new Stmt();
+			stmt.Parse();
+		}
+	}
+	public void Print() {
+		ss.Print();
+		if(stmt != null) {
+			stmt.Print();
+		}
+	}
+	public void Excute() {
+		ss.Excute();
+		if(stmt != null) {
+			stmt.Excute();
+		}
+	}
+}
+
+2.
+One of the motivation of using polymorphism is that we can avoid 
+checking the type of the statement in each of the Parse(), Print(), 
+Excute() method of SS. Instead, we only need to determine the type 
+when creating a instance of that SS. So that it can reduce the 
+probability of making mistake on checking type because most type 
+checking will be handled by the runtime (JVM in the case of Java). 
+But taking polymorphism too far such as making everything derived 
+from Node base class will cause another problem. The problem is 
+that we can create any instance. For example, the If class should 
+have a condition and two statment. By having everything derived from 
+Node base class, we will declare both the condition and the two statements 
+as Node so we can assign anything to the condition or the statement 
+(including something not condition or statement). This reduce the 
+ability of the system to catch error, which is against our initial 
+motivation of introducing polymorphism.
