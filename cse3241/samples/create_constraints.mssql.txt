@@ -1,0 +1,22 @@
+use c3241af_quans;
+alter table EMPLOYEE 
+ add constraint Dnum_key foreign key(Dno) references DEPARTMENT(Dnumber);
+
+alter table DEPARTMENT
+ add constraint Mgr_ssn_key foreign key(Mgr_ssn) references EMPLOYEE(ssn);
+
+alter table DEPT_LOCATIONS
+ add constraint Dpt_no_key_loc foreign key(Dnumber) references DEPARTMENT(Dnumber);
+
+alter table WORKS_ON
+ add constraint Essn_key_wo foreign key (Essn) references EMPLOYEE(ssn);
+alter table WORKS_ON
+ add constraint Proj_no_key foreign key (Pno) references PROJECT(Pnumber);
+
+alter table PROJECT
+ add constraint Dpt_no_key_prj foreign key (Dnum) references DEPARTMENT(Dnumber);
+
+alter table DEPENDENT
+ add constraint Essn_key_dep foreign key (Essn) references EMPLOYEE(Ssn);
+
+

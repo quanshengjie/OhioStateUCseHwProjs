@@ -1,0 +1,7 @@
+Author:    Shengjie Quan
+Email:     quan.48@osu.edu
+Section:   WF 9:35
+Professor: Doreen P Close
+
+compile using command:
+     gcc lab3.c -lpthread -lrt
