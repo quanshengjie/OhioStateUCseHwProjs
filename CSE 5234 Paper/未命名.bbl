@@ -1,0 +1,71 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+{Amazon Web Services, Inc.}%
+}{%
+{Amazon Web Services, Inc.}%
+}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+awsq}
+\APACinsertmetastar {%
+awsq}%
+\begin{APACrefauthors}%
+{Amazon Web Services, Inc.}%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\APACrefbtitle {Amazon Quicksight.} {Amazon quicksight.}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Few%
+}{%
+Few%
+}{%
+{\protect \APACyear {2004}}%
+}]{%
+emmm}
+\APACinsertmetastar {%
+emmm}%
+\begin{APACrefauthors}%
+Few, S.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2004}{9}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Eenie, Meenie, Minie, Moe: Selecting the Right Graph for
+  Your Message} {Eenie, meenie, minie, moe: Selecting the right graph for your
+  message}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Perceptual Edge}{}{}{}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Friendly%
+}{%
+Friendly%
+}{%
+{\protect \APACyear {2009}}%
+}]{%
+mith}
+\APACinsertmetastar {%
+mith}%
+\begin{APACrefauthors}%
+Friendly, M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2009}{8}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Milestones in the History of Thematic Cartography,
+  Statistical Graphics, and Data Visualization} {Milestones in the history of
+  thematic cartography, statistical graphics, and data visualization}.{\BBCQ}
+\newblock
+
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}
