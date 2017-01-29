@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Shengjie Quan Lab3 </title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+
+<!--  ************** Fragment Shader ************* --> 
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+varying vec4 vColor; 
+
+void main(void) {
+        gl_FragColor = vColor; 
+    }
+</script>
+
+<!--  ************** Vertex Shader ************* --> 
+<script id="shader-vs" type="x-shader/x-vertex">
+
+    attribute vec3 aVertexPosition;
+    attribute vec4 aVertexColor;
+    varying vec4 vColor;
+
+   uniform mat4 uMMatrix; 
+   uniform mat4 uVMatrix;
+   uniform mat4 uPMatrix; 
+
+
+    void main(void) {
+
+     gl_PointSize = 10.0; 
+
+      gl_Position = uPMatrix* uVMatrix*uMMatrix*vec4(aVertexPosition, 1.0);
+
+      vColor = aVertexColor; 
+    }
+</script>
+
+
+<script type="text/javascript" src="shaders_setup.js"></script>
+<script type="text/javascript" src="graphKernel.js"></script>
+<script type="text/javascript" src="code06.js"></script>
+
+
+</head>
+
+
+<body onload="webGLStart();">
+
+    <canvas id="code04-canvas" style="border:none;display:inline-block;margin-right:10px;"width="700"height="700" onContextMenu="return false"></canvas>
+    <div style="display:inline-block;">
+        <h4>Point of Interests: </h4>
+        <button  onclick="movePointOfInterest([0,0.1,0])"> Up</button>
+        <button  onclick="movePointOfInterest([0,-0.1,0])"> Down</button>
+        <button  onclick="movePointOfInterest([-0.1,0,0])"> Left</button>
+        <button  onclick="movePointOfInterest([0.1,0,0])"> Right</button>
+
+        <h4>Position of Camera: </h4>
+        <button  onclick="moveCamera([0,0.1,0])"> Up</button>
+        <button  onclick="moveCamera([0,-0.1,0])"> Down</button>
+        <button  onclick="moveCamera([-0.1,0,0])"> Left</button>
+        <button  onclick="moveCamera([0.1,0,0])"> Right</button>
+
+        <h4>Pan Camera: </h4>
+        <button  onclick="panCam(5)"> Clockwise</button>
+        <button  onclick="panCam(-5)"> Counter Clockwise</button>
+    </div>
+
+
+    <h4> Geometry:  </h4>
+    <button  onclick="obj(1)"> Platform</button>
+    <button  onclick="obj(2)"> Grapple</button>
+    <button  onclick="obj(3)"> Arms</button>
+    <h4> Arms depend on the Grapple, which depends on the Platform. The Floor is the static decoration required.
+    <br>
+    <button  onclick="location.reload();"> Reset</button>
+    <br>
+    <button  onclick="startAnimation();">Start Animation</button>
+      <footer>
+    <center>
+      <p>&copy; Lab 3 Shengjie Quan, Ohio State University, 2016</p>
+    </center>
+    </footer>
+    
+</body>
+
+
+</html>
+

@@ -1,0 +1,7 @@
+1) Using the program should be intuitive and similar to code6.html sample 
+   (Buttons at bottom for selecting objects. Keys for moving objects).
+2) Objects can be moved using keys specified in the lab instruction.
+3) For the arms F key is for closing the arm, B key is for opening the arms.
+4) Bonus task: added a Start Animation button to play a short animation.
+   For best effect, reset the scene before play.
+5) Tested in Safari 10.

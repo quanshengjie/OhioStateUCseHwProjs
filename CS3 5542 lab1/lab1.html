@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Shengjie Quan WebGL &mdash; lab1 </title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+
+<!--  ************** Fragment Shader ************* --> 
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+varying vec4 vColor; 
+
+void main(void) {
+        gl_FragColor = vColor; 
+    }
+</script>
+
+<!--  ************** Vertex Shader ************* --> 
+<script id="shader-vs" type="x-shader/x-vertex">
+
+    attribute vec3 aVertexPosition;
+    attribute vec3 aVertexColor;
+    varying vec4 vColor;
+
+    void main(void) {
+
+      gl_Position = vec4(aVertexPosition, 1.0);
+
+      vColor = vec4(aVertexColor, 1.0);
+    }
+</script>
+
+
+<script type="text/javascript" src="shaders_setup.js"></script>
+<script type="text/javascript" src="lab1.js"></script>
+<script type="text/javascript" src="lab1-csv.js"></script>
+
+
+</head>
+
+<style>
+    #container { position: relative; width: 700px; height: 700px; }
+    .canvas { position: absolute; top: 0; left: 0;}
+</style>
+
+<body onload="webGLStart();">
+
+  <div id="container">
+    <canvas id="lab1-canvas" class="canvas" width="700" height="700"></canvas>
+    <canvas id="lab1-2d-canvas" class="canvas" width="700" height="700"></canvas>
+  </div>
+    <br>
+
+    <button  onclick="draw_flavor_averages_bar('setosa');" style="background-color: #0078AB;">Setossa Averages</button>
+    <button  onclick="draw_flavor_averages_bar('versicolor');" style="background-color: #C25E03;">Versicolor Averages</button>
+    <button  onclick="draw_flavor_averages_bar('virginica');" style="background-color: #54AB47;">Virginica Averages</button>
+    <button  onclick="draw_all_flavor_bar()">Draw All</button>
+
+ <!-- courtesy:
+ http://mounirmesselmeni.github.io/2012/11/20/reading-csv-file-with-javascript-and-html5-file-api/  -->
+ <div>
+    <form class="form-horizontal well">
+      <legend>
+        <h3>
+          <div id="title">HTML5 File API</div>
+        </h3>
+      </legend>
+      <fieldset>
+          <label for="csvFileInput"> <strong>CSV File:</strong>
+          </label>
+          <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+          accept=".csv">
+        </div>
+      </fieldset>
+    </form>
+    <div id="output">
+    </div>
+  </div>
+
+
+<br>
+  <br>
+  <footer>
+    <center>
+      <p>&copy; Shengjie Quan Lab1</p>
+    </center>
+  </footer>
+
+  <!-- Le javascript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="read-csv.js"></script>
+
+    <br/>
+
+</body>
+
+
+</html>
+

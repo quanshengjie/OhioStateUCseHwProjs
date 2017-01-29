@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Shengjie Quan Lab4 </title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+
+<!--  ************** Fragment Shader ************* --> 
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform vec4 light_pos; 
+uniform vec4 light_ambient; 
+uniform vec4 light_diffuse; 
+uniform vec4 light_specular;
+uniform vec4 ambient_coef;
+
+uniform mat4 uWRotationMatrix;
+uniform mat4 uMMatrix; 
+uniform mat4 uVMatrix;
+
+varying vec4 pos_in_eye;  //vertex position in eye space 
+varying vec3 v_normal;  // vertex normal
+varying vec4 vDiffuse;
+varying vec4 vSpecular;
+varying float mat_shininess;
+
+void main(void) {
+        vec4 light_pos_in_eye = uVMatrix * uWRotationMatrix * light_pos;
+
+        // light vector L = l-p 
+        vec3 light_vector = normalize(vec3(light_pos_in_eye - pos_in_eye)); 
+
+        // eye vector V = e-p, where e is (0,0,0) 
+        vec3 eye_vector = normalize(-vec3(pos_in_eye));
+        
+        vec4 ambient = ambient_coef * light_ambient; 
+        float ndotl = max(dot(v_normal, light_vector), 0.0); 
+
+        vec4 diffuse = clamp(vDiffuse * light_diffuse* ndotl, 0.0, 1.0);
+
+//      both lines below are okay. One is to use the reflect function the other is to compute by yourself 
+        vec3 R= normalize(vec3(reflect(-light_vector, v_normal))); 
+        float rdotv = max(dot(R, eye_vector), 0.0);
+
+        vec4 specular;  
+        if (ndotl>0.0)
+        {
+            specular = clamp(vSpecular* light_specular*pow(rdotv, mat_shininess), 0.0, 1.0);
+        } else {
+            specular = vec4(0,0,0,1);
+        }
+
+        gl_FragColor = min(ambient+diffuse+specular, vec4(1,1,1,1));
+        //gl_FragColor = vec4(light_vector, 1.0);
+    }
+</script>
+
+<!--  ************** Vertex Shader ************* --> 
+<script id="shader-vs" type="x-shader/x-vertex">
+    precision mediump float;
+    attribute vec3 aVertexPosition;
+    attribute vec3 aVertexNormal;
+    attribute vec4 diffuse_coef;
+    attribute vec4 specular_coef;
+    attribute float aMatShininess; 
+    
+    uniform mat4 uMMatrix; 
+    uniform mat4 uVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uNMatrix; 
+    
+    varying vec4 pos_in_eye;  //vertex position in eye space 
+    varying vec3 v_normal;  // vertex normal
+    varying vec4 vDiffuse;
+    varying vec4 vSpecular;
+    varying float mat_shininess;
+
+    void main(void) {
+        // transform normal from local to eye space: normal matrix is the inverse transpose of the modelview matrix 
+        v_normal = normalize(vec3(uNMatrix*vec4(aVertexNormal,0.0)));
+
+        // transform the vertex position to eye space 
+        pos_in_eye = uVMatrix*uMMatrix*vec4(aVertexPosition, 1.0);
+
+        gl_Position = uPMatrix*uVMatrix*uMMatrix*vec4(aVertexPosition, 1.0);
+
+        vDiffuse = diffuse_coef;
+        vSpecular = specular_coef;
+        mat_shininess = aMatShininess;
+        
+//      vColor = vec4(eye_vector, 1.0); 
+//      vColor = aVertexColor;
+//      vColor = vec4(aVertexNormal, 1.0);
+//      vColor = vec4(v_normal, 1.0);
+
+    }
+
+</script>
+
+
+<script type="text/javascript" src="shaders_setup.js"></script>
+<script type="text/javascript" src="graphKernel.js"></script>
+<script type="text/javascript" src="code06.js"></script>
+
+
+</head>
+
+
+<body onload="webGLStart();">
+
+    <canvas id="code04-canvas" style="border:none;display:inline-block;margin-right:10px;"width="700"height="700" onContextMenu="return false"></canvas>
+    <div style="display:inline-block;">
+
+        <h4>Position of Light: </h4>
+        <button  onclick="moveLight([0,0.1,0])"> Up</button>
+        <button  onclick="moveLight([0,-0.1,0])"> Down</button>
+        <button  onclick="moveLight([-0.1,0,0])"> Left</button>
+        <button  onclick="moveLight([0.1,0,0])"> Right</button>
+        <button  onclick="moveLight([0,0,-0.1])"> Forward</button>
+        <button  onclick="moveLight([0,0,0.1])"> Backward</button>
+
+        <h4>Point of Interests: </h4>
+        <button  onclick="movePointOfInterest([0,0.1,0])"> Up</button>
+        <button  onclick="movePointOfInterest([0,-0.1,0])"> Down</button>
+        <button  onclick="movePointOfInterest([-0.1,0,0])"> Left</button>
+        <button  onclick="movePointOfInterest([0.1,0,0])"> Right</button>
+
+        <h4>Position of Camera: </h4>
+        <button  onclick="moveCamera([0,0.1,0])"> Up</button>
+        <button  onclick="moveCamera([0,-0.1,0])"> Down</button>
+        <button  onclick="moveCamera([-0.1,0,0])"> Left</button>
+        <button  onclick="moveCamera([0.1,0,0])"> Right</button>
+
+        <h4>Pan Camera: </h4>
+        <button  onclick="panCam(5)"> Clockwise</button>
+        <button  onclick="panCam(-5)"> Counter Clockwise</button>
+    </div>
+
+
+    <h4> Geometry:  </h4>
+    <button  onclick="obj(1)"> Platform</button>
+    <button  onclick="obj(2)"> Grapple</button>
+    <button  onclick="obj(3)"> Arms</button>
+    <h4> Arms depend on the Grapple, which depends on the Platform. The Floor is the static decoration required.
+    <br>
+    <button  onclick="location.reload();"> Reset</button>
+    <br>
+    <button  onclick="startAnimation();">Start Animation</button>
+      <footer>
+    <center>
+      <p>&copy; Lab 4 Shengjie Quan, Ohio State University, 2016</p>
+    </center>
+    </footer>
+    
+</body>
+
+
+</html>
+

@@ -1,0 +1,7 @@
+1) Using the program should be intuitive and similar to code6.html sample 
+   (Buttons at bottom for selecting objects. Keys for moving objects).
+2) All functions mentioned are done.
+3) All functions from lab2 are preserved.
+4) Light control mechanism is implemented using HTML buttons
+5) Light position is shown as a white bright cube.
+5) Tested in Safari 10.
