@@ -1,0 +1,9 @@
+[0] Config.pm:320> INFO - This is Biber 1.9
+[0] Config.pm:323> INFO - Logfile is 'æªå½å.blg'
+[44] biber-darwin:277> INFO - === Sun Jan 31, 2016, 01:29:17
+[45] Biber.pm:333> INFO - Reading 'æªå½å.bcf'
+[119] Biber.pm:635> INFO - Found 0 citekeys in bib section 0
+[119] Utils.pm:144> WARN - The file 'æªå½å.bcf' does not contain any citations!
+[152] bbl.pm:517> INFO - Writing 'æªå½å.bbl' with encoding 'UTF-8'
+[152] bbl.pm:606> INFO - Output to æªå½å.bbl
+[152] Biber.pm:106> INFO - WARNINGS: 1

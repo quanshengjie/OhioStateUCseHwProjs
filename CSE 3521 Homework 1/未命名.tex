@@ -1,0 +1,174 @@
+% XeLaTeX can use any Mac OS X font. See the setromanfont command below.
+% Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
+
+% The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+
+\geometry{left=1in}
+\geometry{right=1in}
+\geometry{bottom=1.9in}
+\geometry{top=1in}
+
+%
+%Setting the font
+%
+\usepackage{times}
+
+%
+%Rotating tables (e.g. sideways when too long)
+%
+\usepackage{rotating}
+
+%
+%For multiple rows in tables
+%
+\usepackage{multirow}
+
+% 
+%Line numbering in verse environment
+%
+\usepackage{lineno} 
+
+%
+%Fancy-header package to modify header/page numbering (insert last name)
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\rhead{Quan \thepage} 
+\lfoot{} 
+\cfoot{} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt} 
+%To make sure we actually have header 0.5in away from top edge
+%12pt is one-sixth of an inch. Subtract this from 0.5in to get headsep value
+\setlength{\headsep}{1in}
+
+\usepackage{setspace}
+\doublespacing
+
+\usepackage{booktabs}
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[style=mla]{biblatex}
+\usepackage{url}
+\usepackage[parfill]{parskip}
+\usepackage{listings}
+ \usepackage{float}
+
+\usepackage{titlesec}
+\usepackage{amsmath}
+
+\usepackage{xcolor}
+
+\lstset{language=python}
+\lstset{breaklines}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{numbers=left, 
+numberstyle=\tiny, 
+keywordstyle=\color{blue},
+commentstyle=\color{mygreen},    % comment style
+rulecolor=\color{black},
+frame=shadowbox, 
+rulesepcolor=\color{red!20!green!20!blue!20},
+stringstyle=\color{mymauve},     % string literal style
+title=\lstname,
+showspaces=false,
+showstringspaces=false
+}
+
+
+\title{}
+\author{}
+\date{}                                           % Activate to display a given date or no date
+
+\addbibresource{bib.bib}
+\begin{document}
+
+\begin{flushleft}
+%%%%First page name, class, etc
+Shengjie Quan\\
+Professor: Jihun Hamm\\
+CSE 3521	 \\
+\today \\
+\end{flushleft}
+
+%%%%Title
+\begin{center}
+Response to Homework 1
+\end{center}
+
+%%%%Changes paragraph indentation to 0.5in
+\setlength{\parindent}{0.5in}
+
+\begin{singlespace}
+
+\begin{enumerate}
+
+\item 
+	\begin{itemize}
+	\item[(a)] Yes, if we have only two squares (as indicated in the email), all conditions in this environment are nearly in binary form. Let's label the two squares A and B. Although we don't know whether we are on square A or B, the robot must have sensor to know which direction it can move. Then it can figure out which room it is in. Thus the condition-action rules can be written down accordingly (A probable rule could be: if there is dirt then suck; move to the other room; if there is dirt then suck; done). This model simply explore the two room one by one and suck dirt if find any and any models need to explore the two rooms first any way given the setup. So no other obvious alternative can do better. Thus the agent is rational.
+	\item[(b)] Yes, since model-based agent is good at navigating a maze (not knowing the initial location makes this problem similar to navigating a maze although a little bit simplified) and since the distribution of dirt is unknown, thus any agent needs to explore the whole environment first. Also no obvious agent design could navigate more efficient than this model-based reflex agent. Thus it is rational. A probable condition-action rules could be as follow.
+	\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+if status == dirt:
+	suck()
+currentPos = model.getCurrentPos() # the model will keep track
+				   # the change of the observed environment
+				   # and make a guess of the current location
+
+navigateToNextOptimalSqrFrom(currentPos) # go to the next optimal location 
+					 # based on the current location
+					 # gussed by the model
+	\end{lstlisting}
+	\item[(c)] Yes. Firstly, since the number of square is not known, then the agent must not know the geography (Because if we know the geography, we can simply run an traverse algorithm on the geography data structure and figure out the number of squares which then becomes a contradiction). Since model-based agent is good at navigating a maze (in this case, the environment become a real maze comparing to the setup in (b)) and since the distribution of dirt is unknown, thus any agent needs to explore the whole environment first. Also no obvious agent design could navigate more efficient than this model-based reflex agent. Thus it is rational. A probable condition-action rules could be as follow.
+	\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+if status == dirt:
+	suck()
+netPos = model.getOptimalNextPos() # the model will keep track
+				   # the change of the observed environment
+				   # and gerating the map of the rooms
+				   # and then determin which room 
+				   # to go will maximize the 
+				   # performance
+
+navigateTo(netPos) # go to the next location
+	\end{lstlisting}
+	\end{itemize}
+
+\item
+	\begin{itemize}
+	\item[(a)] Initial state: all regions on the map are uncolored.\\
+	Possible action: color a region using one of the four color.\\
+	Goal test: All regions are colored and no two adjacent regions have the same color.\\
+	Since this problem only asks to find a strategy on how to color the map and there is no discrimination between two different strategies(e.g. one is better than the other), so there is no need for defining a cost.\\
+	\item[(b)] For this problem, the purpose possible is that the monkey need to move the two crates and stack them in order to reach the bananas.\\
+	Initial state: monkey is somewhere in the room, the two crates are somewhere in the room (probably at the Connor) and the bananas are suspended somewhere from the ceiling (probably at the center).\\
+	Possible actions: monkey can move in any directions, push the crates in any directions and lift the crates (in order to stack them).\\
+	Goal test: the two crates are stacked in such a way that the monkey can stand on them and reach the bananas.\\
+	Cost: we can assign a unit of movement of the monkey a cost, for example $1$. We can assign pushing the crate a greater cost, for example $2$ and lifting a crate a similar cost, for example $2$ and the monkey moving a unit of distance when have a crate lifted a even greater costm for example $5$.\\
+	So the problem is to find a strategy that minimize the cost.
+	\item[(c)] This problem is to find a way to measure out exactly one gallon efficiently (means transport water less and waste water less).\\
+	Initial state: All three jugs are empty.\\
+	Possible action: Fill any jug or pour from one jug to another (until the other jug full or the one that pour from is empty) or pour all water from one jug to ground.\\
+	Goal test: Any one of the jug has exactly one gallon of water.\\
+	Cost: assign filling a jug or pouring water from one jug to another one a cost equal to the volume of water being transported (e.g. filling a 8 gallons jug will have cost of 8). We can also assign pouring water to the ground a much higher cost (e.g. pouring 8 gallons of water to the ground will have a cost of $2\times8=16$).\\
+	So the problem is to find a way that measure exactly one gallon of water with minimal cost.
+	\end{itemize}
+\end{enumerate}
+\end{singlespace}
+
+\clearpage
+
+\printbibliography
+\end{document}  
