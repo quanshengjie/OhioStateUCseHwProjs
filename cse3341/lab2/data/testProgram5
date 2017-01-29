@@ -1,0 +1,29 @@
+program
+    int NUM, COUNT, I, J, FLAG, UPBOUND;
+begin
+    read UPBOUND;
+    
+    NUM=2;
+    COUNT=0;
+    while(NUM<=UPBOUND) loop
+        I=2;
+        FLAG=1;
+        while[(I <= NUM) && (FLAG == 1)] loop
+            J = I;
+            while[[[(J <= NUM) && (FLAG == 1)] && 
+                  ((I*J)<=NUM)] && (I<=J)] loop
+                if((I*J) == NUM) then
+                    FLAG = 0;
+                end;
+                J=J+1;
+            end;
+            I=I+1;
+        end;
+        if(FLAG == 1) then
+            write NUM;
+            COUNT=COUNT+1;
+        end;
+        NUM=NUM+1;
+    end;
+    write COUNT;
+end

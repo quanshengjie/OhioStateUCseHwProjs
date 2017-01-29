@@ -1,0 +1,6 @@
+program
+int X10;
+begin
+	X10=10;
+	write X10;
+end

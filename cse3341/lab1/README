@@ -1,0 +1,20 @@
+Name: Shengjie Quan
+Email: quan.48@osu.edu
+
+Files:
+1) TokenInfo.java       A java class contain information about one kind of 
+                        legal token.
+2) Tokenizer.java       A class contain the tokenizer logic.
+3) TokenizerMain.java   The entrypoint of the program.
+
+Instruction:
+1) To compile, change the directory to the program directory (where all 
+.java files in). Then type 'make' (without the single quotation mark).
+2) To run, in the same directory that compiling the program, type 
+'chmod +x Tokenizer' (without the single quotation mark). Then type 
+'./Tokenizer <coreProgram>' (without the single quotation mark and 
+<coreProgram> should be substitute to the actual core program filename).
+
+Note:
+A runtime error (with appropreate message) will be thrown if the tokenizer 
+encounters an illegal token.

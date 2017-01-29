@@ -1,0 +1,44 @@
+Name: Shengjie Quan
+Email: quan.48@osu.edu
+
+Files:
+./src/edu/osu/cse3341/Interpreter.java                              The interpreter main.
+./src/edu/osu/cse3341/syntaxtree/Assign.java                        Class for assign non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Comp.java                          Class for comp non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Cond.java                          Class for cond non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Decl.java                          Class for decl non-terminal.
+./src/edu/osu/cse3341/syntaxtree/DeclSeq.java                       Class for decl seq non-termial.
+./src/edu/osu/cse3341/syntaxtree/Exp.java                           Class for exp non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Fac.java                           Class for fac non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Id.java                            Class for id non-terminal.
+./src/edu/osu/cse3341/syntaxtree/IdList.java                        Class for id list non-terminal.
+./src/edu/osu/cse3341/syntaxtree/If.java                            Class for if non-terminal.
+./src/edu/osu/cse3341/syntaxtree/In.java                            Class for in non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Loop.java                          Class for loop non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Op.java                            Class for op non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Out.java                           Class for out non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Parsable.java                      Interface for all non-terminal classes that has Parse().
+./src/edu/osu/cse3341/syntaxtree/PrettyPrintable.java               Interface for all non-terminal classes that has prettyPrint().
+./src/edu/osu/cse3341/syntaxtree/Program.java                       Class for program non-terminal.
+./src/edu/osu/cse3341/syntaxtree/Stmt.java                          Class for stmt non-terminal.
+./src/edu/osu/cse3341/syntaxtree/StmtSeq.java                       Class for stmt seq non-terminal.
+./src/edu/osu/cse3341/tokenizer/TokenInfo.java                      Class that is part of the tokenizer.
+./src/edu/osu/cse3341/tokenizer/Tokenizer.java                      The tokenizer.
+./src/edu/osu/cse3341/TokenizerMain.java                            Legacy main for lab1.
+./src/edu/osu/cse3341/util/InterpreterUtil.java                     Class that store useful utility methods.
+./src/edu/osu/cse3341/util/VariableMemoryPool.java                  Interface for variable value storage.
+./src/edu/osu/cse3341/util/VariableMemoryPoolHashMapImpl.java       A HashMap Implementation for VariableMemoryPool interface.
+
+Instruction:
+1) To compile, change the directory to the program directory (where all 
+.java files in). Then type 'make' (without the single quotation mark).
+2) To run, in the same directory that compiling the program, type 
+'chmod +x Interpreter' (without the single quotation mark). Then type 
+'./Interpreter <coreProgram> <inputData>' (without the single quotation mark and 
+<coreProgram> should be substitute to the actual core program filename and
+<inputData> should be sustitude to actual input data file).
+
+Note:
+A runtime error (with appropreate message) will be thrown if the Interpreter 
+encountered any problem (illegal tokens, syntax error, runtime error, read from 
+empty input file, etc).

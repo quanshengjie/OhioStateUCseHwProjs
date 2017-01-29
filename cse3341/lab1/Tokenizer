@@ -1,0 +1,6 @@
+if [ $# -eq 1 ] 
+then
+    java edu.osu.cse3341.TokenizerMain $1
+else
+    echo "Invalid argument please pass only one argument"
+fi

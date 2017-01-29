@@ -1,0 +1,11 @@
+1) The interpreter is implemented using OO design approach. Each non-terminal
+   is contained in a seperate class. The name of class that corresponding to each 
+   non-terminal should be self-explanatory. A class that store the value of 
+   variables is passed though the entire parse tree.
+2) The instructions of compiling and running are sepecified in detail in 
+   README.
+
+3) The files included in data folder are all tested programs.
+   Note: not all test programs are legal.
+
+4) No known bugs.

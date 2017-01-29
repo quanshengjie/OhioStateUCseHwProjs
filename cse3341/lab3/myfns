@@ -1,0 +1,49 @@
+; 1) The usage of this program is same as the way described in 
+; the lab instruction. 
+; 2) All codes in this file is self-explanatory and intuitive.
+
+(define (eliminateOne L1 a) 
+        (cond ((null? L1) '()) 
+              ((= (car L1) a) (eliminateOne (cdr L1) a))
+              (#t (cons (car L1) (eliminateOne (cdr L1) a)))
+        )
+)
+
+(define (eliminateOneOnce L1 a) 
+        (cond ((null? L1) '()) 
+              ((= (car L1) a) (cdr L1))
+              (#t (cons (car L1) (eliminateOneOnce (cdr L1) a)))
+        )
+)
+
+(define (eliminate L1 L2) 
+    (cond ((null? L2) L1) 
+          (#t (eliminate (eliminateOne L1 (car L2)) (cdr L2)) )
+    )
+)
+
+(define (smaller a b)
+    (cond ((< a b) a)
+          (#t b)
+    )
+)
+
+(define (min L1)
+    (cond ((null? (cdr L1)) (car L1))
+          ( #t (smaller (car L1) (min (cdr L1))) )
+    )
+)
+
+(define (sortWithMin a L1) 
+    (cons a (sort (eliminateOneOnce L1 a)))
+)
+
+(define (sort L1) 
+    (cond ((null? L1) '())
+          (#t (sortWithMin (min L1) L1))
+    )
+)
+
+(define (eliminateNsort L1 L2)
+    (sort (eliminate L1 L2))
+)

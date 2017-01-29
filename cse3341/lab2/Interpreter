@@ -1,0 +1,6 @@
+if [ $# -eq 2 ] 
+then
+    java edu.osu.cse3341.Interpreter $1 $2
+else
+    echo "Invalid argument please pass only one argument"
+fi

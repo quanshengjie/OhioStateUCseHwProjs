@@ -1,0 +1,18 @@
+1) The Tokenizer class contain four public methods, getToken(), skipToken(),
+   intVal(), idName(). There function are the same as described in the 
+   slides. The class uses regular expression to extract the legal token at 
+   the head of the program stream. The current token is cached. The cache 
+   will be enjoied by getToken() method. skipToken() will update the cached
+   token information and move cursor forward in the program stream. The 
+   Tokenizer class also keep track weather there was a space between current
+   token and the previous token so that the whitespace requirement can be 
+   enforced.
+
+2) The instructions of compiling and running are sepecified in detail in 
+   README.
+
+3) The files included in data folder are all tested programs.
+   Note: testProgram3 and testProgram5 are for illegal tokens. All others 
+   are legal tokens.
+
+4) No known bugs.
