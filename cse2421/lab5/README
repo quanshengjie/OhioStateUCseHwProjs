@@ -1,0 +1,17 @@
+Name: Shengjie Quan
+Amount of Time: 1 hr
+No error or problems
+No issues
+Using the application is intuitive
+
+loop $ will jump back to itself everytime reach it and decrement exa, 
+the loop will continue until eax register reach zero. The purpose of loop $
+is to pause the program for a will so that the application can mimic the 
+effect of shark moving toward left gradually rather than finish all actions
+in an extremely short time.
+
+The first time jnz.p excuted, esi = 0x15 
+The second time jnz.p excuted, esi = 0x14 
+Immediately before the final int 0x80 excuted, esi = 0x0 
+The function of register esi is to count the times that jnz .p excuted which
+is the times of looping. 

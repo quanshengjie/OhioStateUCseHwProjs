@@ -1,0 +1,17 @@
+Name: Shengjie Quan
+Serial Number: C411-0697-7F54-7C68
+
+The program will read in four groups of hex number seperrated by dash(-). Each hex number is 2 byte. Let's name the four group hex number from left to right according to the order of input a, b, c, d. The sum of each individual character's ascii in Name including the space seperate first name and last name is 0x0522.
+
+A valid key should satisfield all the following equations.
+
+a - 0x0522 = 0xBEEF
+(b - 0x0522) * (c + 0x0522) = 0xC0FFEE
+((((d + 0x8086) xor 0x8086) - 0x8086) xor 0x8086) + 0x0522 = 0x8086
+
+All calculation results except the second one are trunked to two bytes before compraison.
+
+The program in the test_key function will subtract each character's ascii code of name including the space from a and from b and add the ascii code to c and d. However, befor doing any math with d, the following manipulation will applied on d.
+d = (((d + 0x8086) xor 0x8086) - 0x8086) xor 0x8086
+
+After all of math mentioned above, if a = 0xBEEF and b*c = 0xC0FFEE and d = 0x8086, then test_key function will return 1 means accepted key, otherwise will return 0 means invalied key.
