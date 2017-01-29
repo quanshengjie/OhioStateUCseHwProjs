@@ -1,0 +1,454 @@
+% XeLaTeX can use any Mac OS X font. See the setromanfont command below.
+% Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
+
+% The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+
+\geometry{left=1in}
+\geometry{right=1in}
+\geometry{bottom=1.9in}
+\geometry{top=1in}
+
+%
+%Setting the font
+%
+\usepackage{times}
+
+%
+%Rotating tables (e.g. sideways when too long)
+%
+\usepackage{rotating}
+
+%
+%For multiple rows in tables
+%
+\usepackage{multirow}
+
+% 
+%Line numbering in verse environment
+%
+\usepackage{lineno} 
+
+%
+%Fancy-header package to modify header/page numbering (insert last name)
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\rhead{Quan \thepage} 
+\lfoot{} 
+\cfoot{} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt} 
+%To make sure we actually have header 0.5in away from top edge
+%12pt is one-sixth of an inch. Subtract this from 0.5in to get headsep value
+\setlength{\headsep}{1in}
+
+\usepackage{setspace}
+\doublespacing
+
+\usepackage{booktabs}
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[style=mla]{biblatex}
+\usepackage{url}
+\usepackage[parfill]{parskip}
+\usepackage{listings}
+ \usepackage{float}
+
+\usepackage{titlesec}
+\usepackage{amsmath}
+
+\usepackage{xcolor}
+
+\lstset{language=python}
+\lstset{breaklines}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{numbers=left, 
+numberstyle=\tiny, 
+keywordstyle=\color{blue},
+commentstyle=\color{mygreen},    % comment style
+rulecolor=\color{black},
+frame=shadowbox, 
+rulesepcolor=\color{red!20!green!20!blue!20},
+stringstyle=\color{mymauve},     % string literal style
+title=\lstname,
+showspaces=false,
+showstringspaces=false
+}
+
+\title{}
+\author{}
+\date{}                                           % Activate to display a given date or no date
+
+\addbibresource{bib.bib}
+\begin{document}
+
+\begin{flushleft}
+%%%%First page name, class, etc
+Shengjie Quan\\
+Professor: Adam C. Champion\\
+CSE 3461	 \\
+\today \\
+\end{flushleft}
+
+%%%%Title
+\begin{center}
+Response to Homework 1
+\end{center}
+
+%%%%Changes paragraph indentation to 0.5in
+\setlength{\parindent}{0.5in}
+
+\begin{singlespace}
+
+\begin{enumerate}
+
+\item 
+	\begin{itemize}
+	\item[(a)] Since the link bandwidth is 3 Mbps = 3000kbps and each user requires 150 kbps. So, 3000/150 = 20 users.
+	\item[(b)] Since we already assumed each user transmits 10\% of the time, thus at any time, a given user has 0.1 of probability that the user is transmitting.
+	\item[(c)] Let X be a random variable that recording the number of users transmitting. Since we supposed that there are 120 users, then we can treat that as 120 successive experiments and if a user is transmitting, then we record a success. Since from (b), we know that a given user has 0.1 of probability that the user is transmitting, thus the probability of a success is 0.1. Since we can safely assume all users are independent (whether a user is transmitting or not is not affected by other users status), then X has a binomial distribution of B(120, 0.1). Thus, according to the formula on the statistic book, the probability that exactly $n$ users are transmitting is $P(X=n) = \binom {120}{n} 0.1^n 0.9^{120-n}$.
+	\item[(d)] Since we have the distribution in (c), according to the calculator, the probability of 21 or more users transmitting simultaneously is $P(X>=21) = 0.00794$
+	\end{itemize}
+\item
+	\begin{itemize}
+	\item[(a)] Although with parallel TCP connections, we still need to fetch the base HTML file first, which will consume time of $2r + d$. Then we can initiate $k$ TCP connections in parallel to fetch the $k$ referenced objects and this will consume $2r$ of time. The transmission time for the $k$ objects will consume another $k d$ of time. So, finally, the total delay would be $4r + (k+1)d$
+	\item[(b)] Without parallel TCP connection, the time for fetching the base HTML remains the same but the time to initiate $k$ TCP connections will then become $k 2r$. Since the time for transmitting the $k$ reference objects remains the same, the total delay would be $(2k+2)r + (k+1)d$. 
+	\item[(c)] For persistent HTTP with pipelining, there will be one $r$ of time for initiate the TCP connection, one $r + d$ of time for requesting and fetching the base HTML file, another one $r$ for requesting all object files and $k d$ for feating all $k$ objects. Thus the total delay would be $3r + (k+1)d$.
+	\item[(d)] For persistent HTTP with pipelining, everything are the same except that each object file needs a separate request. Thus for $k$ objects, there will be $k r$ time for requesting. So, the total delay would be $(k+2)r + (k+1)d$.
+	\end{itemize}
+\item
+	Although LTE and WiMax are 4G technologies, they still have great differences. According to an online article ``WiMAX vs LTE – What is a Better 4G Technology'', LTE and WiMax use different channels bandwidth. for LTE, it uses 1.4MHz to 100MHz whereas WiMax uses ``channels bandwidths up to 40 MHz'' \cite{wvlw}. LTE uses different modulation for uplink and downlink whereas WiMax uses the same modulation for both of them. LTE can handle connections even if the object is moving at a speed of 280 mph whereas WiMax can only handle 75 mph. WiMax is not compatible with legacy 2G or 3G whereas LTE is compatible with both of them and even allowing a device to ``roaming between LTE and 3G''. WiMax network is cheaper to deploy than LTE network\cite{wvlw}.
+\item 
+	Since each link has a probability of $p$ that the package will lose so the probability that a package not lose on a link is $1-p$ and based on the figure, there are $n+1$ links between the server and the client so the probability that a package received successfully is $(1-p)^{n+1}$. Denote this probability as $P_s = (1-p)^{n+1}$. Let $X$ be the number of time needed for a package to lose during the whole transmission process from the server to the client. Thus X has a geometric distribution with success probability of $P_s$ (We treat a package received successfully as a success trial). So according to some formula found in statistic books, the expected number of time of failure before a success is $E[X] = \frac{1-P_s}{P_s}$. Since each failure corresponds to a re-transmission, thus on average the sever need to re-transmit the package $\frac{1-P_s}{P_s}$ times in order for the client to receive successfully.
+\item
+	Since the link has transmission rate of $R = \frac{S}{2}$ packages/sec, thus it takes $\frac{2}{S}$ seconds for the link to transmit one package. Similarly, for the $N$ packages, every $\frac{1}{S}$ seconds, a new package arrives. So we can see from these conditions that the first package arrived at time 0 and begin to transmit, at time $\frac{1}{S}$, the second package arrived but the first package only got half of its transmission done. Thus package 2 sit in queue and waited $\frac{1}{S}$. So, the queuing delay for the second package is $\frac{1}{S}$. By repeating this analysis, we can see that the third package waited for $\frac{2}{S}$ seconds, the forth package waited for $\frac{3}{S}$ seconds, ... So to sum up all the waiting time for these $N$ packages, we get the total queuing time of $\frac{N^2+N}{2S}$.
+\item
+	\begin{itemize}
+	\item[(a)]
+		\begin{lstlisting}
+% nslookup -type=A www.cse.ohio-state.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Name:	www.cse.ohio-state.edu
+Address: 164.107.58.106
+		\end{lstlisting}
+		\begin{lstlisting}
+% nslookup -type=NS www.cse.ohio-state.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+*** Can't find www.cse.ohio-state.edu: No answer
+		\end{lstlisting}
+		\begin{lstlisting}
+% nslookup -type=MX www.cse.ohio-state.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+*** Can't find www.cse.ohio-state.edu: No answer
+		\end{lstlisting}
+	\item[(b)]
+		\begin{lstlisting}
+% nslookup -type=A www.osu.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+www.osu.edu	canonical name = whprdosuedu.it.ohio-state.edu.
+Name:	whprdosuedu.it.ohio-state.edu
+Address: 140.254.112.210
+		\end{lstlisting}
+		\begin{lstlisting}
+% nslookup -type=A amazon.com
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+Name:	amazon.com
+Address: 54.239.17.6
+Name:	amazon.com
+Address: 54.239.17.7
+Name:	amazon.com
+Address: 54.239.25.192
+Name:	amazon.com
+Address: 54.239.25.200
+Name:	amazon.com
+Address: 54.239.25.208
+Name:	amazon.com
+Address: 54.239.26.128
+		\end{lstlisting}
+		www.osu.edu has only 1 IP address but amazon.com has multiply IP addresses.
+	\item[(c)]
+		\begin{lstlisting}
+% nslookup
+> set q=SOA
+> www.csail.mit.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+*** Can't find www.csail.mit.edu: No answer
+
+Authoritative answers can be found from:
+csail.mit.edu
+	origin = auth-ns0.csail.mit.edu
+	mail addr = bug-domain.csail.mit.edu
+	serial = 252913567
+	refresh = 1800
+	retry = 300
+	expire = 604800
+	minimum = 900
+> cs.illinois.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+cs.illinois.edu
+	origin = ipam1.cites.illinois.edu
+	mail addr = hostmgr.illinois.edu
+	serial = 3013013440
+	refresh = 7200
+	retry = 900
+	expire = 1209600
+	minimum = 60
+
+Authoritative answers can be found from:
+cs.illinois.edu	nameserver = dns3.illinois.edu.
+cs.illinois.edu	nameserver = dns1.illinois.edu.
+cs.illinois.edu	nameserver = dns2.illinois.edu.
+
+% nslookup auth-ns0.csail.mit.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+Name:	auth-ns0.csail.mit.edu
+Address: 128.30.2.123
+
+% nslookup ipam1.cites.illinois.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+Name:	ipam1.cites.illinois.edu
+Address: 192.17.172.64
+		\end{lstlisting}
+	So, the authoritative server name and IP for machine www.csail.mit.edu is auth-ns0.csail.mit.edu and 128.30.2.123; the authoritative servers and IP for cs.illinois.edu is ipam1.cites.illinois.edu and 192.17.172.64.
+	\item[(c)]
+		\begin{lstlisting}
+% nslookup -type=MX cse.ohio-state.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+cse.ohio-state.edu	mail exchanger = 10 cse-ohiostate-edu02b.mail.protection.outlook.com.
+
+% nslookup cse-ohiostate-edu02b.mail.protection.outlook.com
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+Name:	cse-ohiostate-edu02b.mail.protection.outlook.com
+Address: 207.46.163.215
+Name:	cse-ohiostate-edu02b.mail.protection.outlook.com
+Address: 207.46.163.247
+Name:	cse-ohiostate-edu02b.mail.protection.outlook.com
+Address: 207.46.163.170
+
+% nslookup -type=MX cs.ucla.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+cs.ucla.edu	mail exchanger = 13 Mailman.cs.ucla.edu.
+cs.ucla.edu	mail exchanger = 3 Pelican.cs.ucla.edu.
+
+% nslookup Pelican.cs.ucla.edu
+Server:		164.107.112.75
+Address:	164.107.112.75#53
+
+Non-authoritative answer:
+Name:	Pelican.cs.ucla.edu
+Address: 131.179.128.17
+
+		\end{lstlisting}
+	For champion@cse.ohio-state.edu, the email server is \\cse-ohiostate-edu02b.mail.protection.outlook.com and one of its IP address is 207.46.163.215.
+	For person@cs.ucla.edu, one of the email server is Pelican.cs.ucla.edu and its IP address is 131.179.128.17.
+	\end{itemize}
+\item
+	\begin{itemize}
+	\item[(a)]
+	This is a traceroute to Peiking University's website whose server is located in Beijing China.
+		\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+% traceroute english.pku.edu.cn
+traceroute to english.pku.edu.cn (162.105.131.198), 30 hops max, 60 byte packets
+ 1  hsrp113.cse.ohio-state.edu (164.107.113.1)  1.824 ms  1.806 ms  1.787 ms
+ 2  granite.cse.ohio-state.edu (164.107.126.1)  0.439 ms  0.466 ms  0.409 ms
+ 3  se4-vl870.net.ohio-state.edu (140.254.68.65)  1.239 ms  1.271 ms  1.136 ms
+ 4  socc4-forg2-4.net.ohio-state.edu (164.107.8.117)  1.086 ms  1.202 ms  1.180 ms
+ 5  socc5-eth3-1.net.ohio-state.edu (164.107.1.130)  1.551 ms  1.396 ms  1.549 ms
+ 6  192.153.37.249 (192.153.37.249)  1.184 ms  1.165 ms  1.172 ms
+ 7  192.153.40.34 (192.153.40.34)  1.515 ms  1.532 ms  1.555 ms
+ 8  cncno-r5-et-1-0-0s101.core.oar.net (192.153.39.242)  4.337 ms  4.428 ms  4.369 ms
+ 9  et-9-0-0.1242.rtr.chic.net.internet2.edu (198.71.46.1)  10.174 ms  10.263 ms  10.250 ms
+10  et-10-0-0.106.rtr.kans.net.internet2.edu (198.71.45.15)  21.435 ms  21.463 ms  21.419 ms
+11  et-1-0-0.109.rtr.hous.net.internet2.edu (198.71.45.16)  36.742 ms  36.655 ms  36.592 ms
+12  et-5-0-0.111.rtr.losa.net.internet2.edu (198.71.45.21)  68.881 ms  68.824 ms  68.511 ms
+13  210.25.189.133 (210.25.189.133)  70.372 ms  70.718 ms  70.596 ms
+14  210.25.189.49 (210.25.189.49)  215.006 ms  215.097 ms  214.956 ms
+15  210.25.189.17 (210.25.189.17)  217.167 ms  218.870 ms  218.545 ms
+16  210.25.189.198 (210.25.189.198)  217.596 ms  218.191 ms  218.136 ms
+17  101.4.117.101 (101.4.117.101)  215.546 ms  219.736 ms  219.688 ms
+18  101.4.117.50 (101.4.117.50)  215.418 ms  215.446 ms  215.641 ms
+19  101.4.115.69 (101.4.115.69)  215.583 ms  215.517 ms  215.522 ms
+20  101.4.112.90 (101.4.112.90)  222.889 ms  220.634 ms  216.458 ms
+21  101.4.117.81 (101.4.117.81)  217.081 ms  217.093 ms  219.945 ms
+22  202.112.41.178 (202.112.41.178)  215.604 ms  215.583 ms  215.591 ms
+23  202.112.41.182 (202.112.41.182)  216.016 ms  215.944 ms  216.145 ms
+24  162.105.252.133 (162.105.252.133)  215.758 ms  215.921 ms  215.827 ms
+		\end{lstlisting}
+	This is a traceroute to Shanghai University's website whose server is located in Shanghai China.
+		\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+% traceroute www.shu.edu.cn
+traceroute to www.shu.edu.cn (202.120.127.189), 30 hops max, 60 byte packets
+ 1  hsrp113.cse.ohio-state.edu (164.107.113.1)  2.228 ms  2.187 ms  2.159 ms
+ 2  granite.cse.ohio-state.edu (164.107.126.1)  0.470 ms  0.440 ms  0.473 ms
+ 3  se4-vl870.net.ohio-state.edu (140.254.68.65)  1.226 ms  1.199 ms  1.234 ms
+ 4  socc4-forg2-4.net.ohio-state.edu (164.107.8.117)  1.213 ms  1.148 ms  1.193 ms
+ 5  socc5-eth3-1.net.ohio-state.edu (164.107.1.130)  1.659 ms  1.641 ms  1.618 ms
+ 6  192.153.37.249 (192.153.37.249)  1.147 ms  1.196 ms  1.169 ms
+ 7  192.153.40.34 (192.153.40.34)  1.464 ms  1.542 ms  1.489 ms
+ 8  cncno-r5-et-1-0-0s101.core.oar.net (192.153.39.242)  4.327 ms  4.391 ms  4.346 ms
+ 9  et-9-0-0.1242.rtr.chic.net.internet2.edu (198.71.46.1)  10.179 ms  10.257 ms  10.209 ms
+10  et-10-0-0.106.rtr.kans.net.internet2.edu (198.71.45.15)  21.458 ms  21.403 ms  21.372 ms
+11  et-1-0-0.109.rtr.hous.net.internet2.edu (198.71.45.16)  35.839 ms  35.940 ms  35.887 ms
+12  et-5-0-0.111.rtr.losa.net.internet2.edu (198.71.45.21)  68.378 ms  68.356 ms  68.494 ms
+13  210.25.189.133 (210.25.189.133)  71.725 ms  71.622 ms  71.578 ms
+14  210.25.189.49 (210.25.189.49)  215.086 ms  214.945 ms  215.088 ms
+15  210.25.189.17 (210.25.189.17)  218.924 ms  218.646 ms  218.667 ms
+16  210.25.189.198 (210.25.189.198)  216.335 ms  217.485 ms  217.391 ms
+17  101.4.117.101 (101.4.117.101)  217.189 ms  218.041 ms  217.631 ms
+18  101.4.116.146 (101.4.116.146)  215.658 ms  215.294 ms  215.258 ms
+19  101.4.112.70 (101.4.112.70)  243.016 ms  243.810 ms  248.937 ms
+20  101.4.116.117 (101.4.116.117)  246.924 ms  249.594 ms  247.934 ms
+21  101.4.117.29 (101.4.117.29)  241.853 ms  241.519 ms  241.906 ms
+22  101.4.115.173 (101.4.115.173)  242.026 ms  242.668 ms  242.448 ms
+		\end{lstlisting}
+	According to traceroute result, link 1 - 17 are the same. Observe the delay, I believe the transpacific link happens between link 13 and 14 and both link 13 and 14 has the same IP address so it is plausible to say that the transpacific link should be the same.
+	\item[(b)]
+	This is a traceroute to baidu.com whose server is located in Tianjin China.
+		\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+% traceroute baidu.com
+traceroute to baidu.com (220.181.57.217), 30 hops max, 60 byte packets
+ 1  hsrp113.cse.ohio-state.edu (164.107.113.1)  1.816 ms  1.736 ms  1.727 ms
+ 2  * granite.cse.ohio-state.edu (164.107.126.1)  0.486 ms *
+ 3  se4-vl870.net.ohio-state.edu (140.254.68.65)  1.298 ms  1.236 ms  1.118 ms
+ 4  socc4-forg2-4.net.ohio-state.edu (164.107.8.117)  1.164 ms  1.177 ms  1.167 ms
+ 5  socc5-eth3-1.net.ohio-state.edu (164.107.1.130)  1.571 ms  1.590 ms  1.582 ms
+ 6  clmbn-r9-ge-3-3-7s334.core.oar.net (199.18.169.9)  1.158 ms  1.160 ms  1.138 ms
+ 7  clmbn-r5-et-0-0-0s100.core.oar.net (199.218.20.34)  1.474 ms  1.517 ms  1.475 ms
+ 8  cncno-r5-et-1-0-0s100.core.oar.net (199.218.39.242)  4.350 ms  4.313 ms  4.328 ms
+ 9  et-10-0-0.1243.rtr.eqch.net.internet2.edu (64.57.29.65)  10.634 ms  10.631 ms  10.633 ms
+10  ae-5.80.rtr.chic.net.internet2.edu (64.57.20.150)  10.759 ms  10.705 ms  10.673 ms
+11  ae-0.80.rtr.kans.net.internet2.edu (64.57.20.148)  21.568 ms  21.482 ms  21.781 ms
+12  ae-0.80.rtr.salt.net.internet2.edu (64.57.20.146)  41.879 ms  41.807 ms  41.719 ms
+13  ae-2.80.rtr.losa.net.internet2.edu (64.57.20.144)  54.300 ms  54.390 ms  54.198 ms
+14  et-4-0-0.80.rtr.wilc.net.internet2.edu (64.57.20.127)  54.416 ms  54.282 ms  54.271 ms
+15  162.252.69.139 (162.252.69.139)  56.022 ms  55.994 ms  57.200 ms
+16  202.97.50.25 (202.97.50.25)  57.914 ms  57.233 ms  56.949 ms
+17  202.97.52.197 (202.97.52.197)  208.809 ms  210.090 ms  209.475 ms
+18  202.97.53.249 (202.97.53.249)  208.444 ms  206.062 ms  205.848 ms
+19  202.97.53.105 (202.97.53.105)  213.862 ms  213.944 ms  212.163 ms
+20  220.181.177.226 (220.181.177.226)  207.083 ms * *
+21  * * *
+22  220.181.17.150 (220.181.17.150)  212.181 ms 220.181.17.94 (220.181.17.94)  328.414 ms 220.181.17.90 (220.181.17.90)  208.926 ms
+		\end{lstlisting}
+	This is a traceroute to University of Mumbai's website whose server is located in Mumbai India.
+		\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+% traceroute www.mu.ac.in
+traceroute to www.mu.ac.in (14.139.125.195), 30 hops max, 60 byte packets
+ 1  hsrp113.cse.ohio-state.edu (164.107.113.1)  1.771 ms  1.790 ms  1.752 ms
+ 2  granite.cse.ohio-state.edu (164.107.126.1)  0.501 ms * *
+ 3  se4-vl870.net.ohio-state.edu (140.254.68.65)  1.339 ms  1.345 ms  1.278 ms
+ 4  socc4-forg2-4.net.ohio-state.edu (164.107.8.117)  1.316 ms  1.373 ms  1.275 ms
+ 5  socc5-eth3-1.net.ohio-state.edu (164.107.1.130)  1.452 ms  1.497 ms  1.492 ms
+ 6  192.153.37.249 (192.153.37.249)  1.186 ms  1.121 ms  1.269 ms
+ 7  192.153.40.34 (192.153.40.34)  1.561 ms  1.494 ms  1.496 ms
+ 8  cncno-r5-et-1-0-0s101.core.oar.net (192.153.39.242)  4.468 ms  4.429 ms  4.389 ms
+ 9  et-9-0-0.1242.rtr.chic.net.internet2.edu (198.71.46.1)  10.316 ms  10.251 ms  10.231 ms
+10  et-10-0-0.106.rtr.kans.net.internet2.edu (198.71.45.15)  21.431 ms  21.542 ms  21.514 ms
+11  et-1-0-0.109.rtr.hous.net.internet2.edu (198.71.45.16)  36.127 ms  36.008 ms  36.232 ms
+12  et-5-0-0.111.rtr.losa.net.internet2.edu (198.71.45.21)  68.485 ms  68.469 ms  68.417 ms
+13  transpac-1-lo-jmb-702.lsanca.pacificwave.net (207.231.240.136)  90.715 ms  90.651 ms  84.769 ms
+14  tokyo-losa-tp2.transpac.org (192.203.116.146)  184.266 ms  184.183 ms  184.271 ms
+15  kote-dc-gm1-xe2-2-1-4005.jp.apan.net (203.181.248.249)  186.949 ms  186.912 ms  184.363 ms
+16  sg-xe-01-v4.bb.tein3.net (202.179.249.77)  253.305 ms  252.926 ms  253.202 ms
+17  mb-so-01-v4.bb.tein3.net (202.179.249.54)  310.822 ms  310.870 ms  310.877 ms
+18  202.179.249.6 (202.179.249.6)  310.829 ms  310.747 ms  311.134 ms
+19  in-pr-v4.bb.tein3.net (202.179.249.42)  311.445 ms  311.267 ms  311.202 ms
+20  * * *
+21  * * 115.111.114.58.static-mumbai.vsnl.net.in (115.111.114.58)  261.954 ms
+		\end{lstlisting}
+	According to traceroute result, link 1 - 5 are the same. Observe the delay, For baidu.com, the transpacific link happens between 16 and 17. Searching the IP address, we can see this transpacific link is from US to Taiyuan, Shanxi, China. For University of Mumbai, the transpacific link happens between 13 and 14. The traceroute result indicates that the links goes from US to Tokyo, Japan first and then enter China, and finally reach Mumbai, India.
+	\item[(c)]
+	This is a traceroute to Humboldt-Universität zu Berlin's website whose server is located in Berlin, Germany.
+		\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+% traceroute www.hu-berlin.de
+traceroute to www.hu-berlin.de (141.20.5.188), 30 hops max, 60 byte packets
+ 1  hsrp113.cse.ohio-state.edu (164.107.113.1)  1.745 ms  1.725 ms  1.730 ms
+ 2  * granite.cse.ohio-state.edu (164.107.126.1)  0.445 ms *
+ 3  se4-vl870.net.ohio-state.edu (140.254.68.65)  1.147 ms  1.207 ms  1.078 ms
+ 4  socc4-forg2-4.net.ohio-state.edu (164.107.8.117)  1.063 ms  1.172 ms  1.137 ms
+ 5  socc5-eth3-1.net.ohio-state.edu (164.107.1.130)  1.387 ms  1.446 ms  1.521 ms
+ 6  192.153.37.249 (192.153.37.249)  1.358 ms  1.290 ms  1.328 ms
+ 7  192.153.40.34 (192.153.40.34)  1.568 ms  1.556 ms  1.483 ms
+ 8  clevs-r5-et-1-0-0s101.core.oar.net (192.153.39.254)  5.079 ms  5.163 ms  5.164 ms
+ 9  192.88.192.238 (192.88.192.238)  14.035 ms  13.994 ms  13.922 ms
+10  internet2-gw.mx1.lon.uk.geant.net (62.40.124.44)  88.785 ms  88.722 ms  88.699 ms
+11  ae0.mx1.ams.nl.geant.net (62.40.98.81)  100.515 ms  101.169 ms  100.804 ms
+12  ae1.mx1.ham.de.geant.net (62.40.98.61)  117.230 ms  117.167 ms  117.157 ms
+13  cr-tub1.x-win.dfn.de (62.40.112.146)  111.844 ms  111.745 ms  112.340 ms
+14  xr-tub2-vlan50.x-win.dfn.de (188.1.144.158)  111.567 ms  111.662 ms  111.584 ms
+15  xr-hub1-te2-1.x-win.dfn.de (188.1.144.13)  121.328 ms  121.434 ms  121.164 ms
+16  xr-adh1-te1-1.x-win.dfn.de (188.1.144.17)  108.726 ms  108.894 ms  108.662 ms
+		\end{lstlisting}
+	This is a traceroute to Imperial College London's website whose server is located in London UK.
+		\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+% traceroute www.imperial.ac.uk
+traceroute to www.imperial.ac.uk (155.198.140.14), 30 hops max, 60 byte packets
+ 1  hsrp113.cse.ohio-state.edu (164.107.113.1)  1.836 ms  1.823 ms  1.773 ms
+ 2  * granite.cse.ohio-state.edu (164.107.126.1)  0.478 ms *
+ 3  se4-vl870.net.ohio-state.edu (140.254.68.65)  1.278 ms  1.280 ms  1.178 ms
+ 4  socc4-forg2-4.net.ohio-state.edu (164.107.8.117)  1.176 ms  1.149 ms  1.180 ms
+ 5  socc5-eth3-1.net.ohio-state.edu (164.107.1.130)  1.483 ms  1.538 ms  1.585 ms
+ 6  192.153.37.249 (192.153.37.249)  1.231 ms  1.168 ms  1.175 ms
+ 7  192.153.40.34 (192.153.40.34)  1.525 ms  1.582 ms  1.517 ms
+ 8  clevs-r5-et-1-0-0s101.core.oar.net (192.153.39.254)  5.165 ms  5.136 ms  5.073 ms
+ 9  192.88.192.238 (192.88.192.238)  14.130 ms  14.064 ms  13.993 ms
+10  internet2-gw.mx1.lon.uk.geant.net (62.40.124.44)  88.608 ms  88.652 ms  88.698 ms
+11  janet-gw.mx1.lon.uk.geant.net (62.40.124.198)  88.658 ms  88.570 ms  88.742 ms
+12  ae29.londpg-sbr1.ja.net (146.97.33.2)  89.173 ms  89.229 ms  90.733 ms
+13  ae20-0.londic.rbr2.ja.net (146.97.37.134)  134.641 ms  134.564 ms  125.529 ms
+14  imperial-college.ja.net (146.97.136.90)  90.131 ms  90.101 ms  89.925 ms
+		\end{lstlisting}
+	According to traceroute result, link 1 - 10 are the same. The traceroute results indicate that both links go from US to UK first and diverge in UK (indicated by link 11) and then the first one goes to Germany but the second one goes to London, which remains in UK.
+	\end{itemize}
+\end{enumerate}
+\end{singlespace}
+
+\clearpage
+
+\printbibliography
+\end{document}  

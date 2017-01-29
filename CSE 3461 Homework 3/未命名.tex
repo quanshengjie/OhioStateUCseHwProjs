@@ -1,0 +1,211 @@
+% XeLaTeX can use any Mac OS X font. See the setromanfont command below.
+% Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
+
+% The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+
+\geometry{left=1in}
+\geometry{right=1in}
+\geometry{bottom=1.9in}
+\geometry{top=1in}
+
+%
+%Setting the font
+%
+\usepackage{times}
+
+%
+%Rotating tables (e.g. sideways when too long)
+%
+\usepackage{rotating}
+
+%
+%For multiple rows in tables
+%
+\usepackage{multirow}
+
+% 
+%Line numbering in verse environment
+%
+\usepackage{lineno} 
+
+%
+%Fancy-header package to modify header/page numbering (insert last name)
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\rhead{Quan \thepage} 
+\lfoot{} 
+\cfoot{} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt} 
+%To make sure we actually have header 0.5in away from top edge
+%12pt is one-sixth of an inch. Subtract this from 0.5in to get headsep value
+\setlength{\headsep}{1in}
+
+\usepackage{setspace}
+\doublespacing
+
+\usepackage{booktabs}
+\usepackage[american]{babel}
+\usepackage{csquotes}
+% \usepackage[style=mla]{biblatex}
+\usepackage{url}
+\usepackage[parfill]{parskip}
+\usepackage{listings}
+ \usepackage{float}
+
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{xcolor}
+
+\lstset{language=python}
+\lstset{breaklines}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{numbers=left, 
+numberstyle=\tiny, 
+keywordstyle=\color{blue},
+commentstyle=\color{mygreen},    % comment style
+rulecolor=\color{black},
+frame=shadowbox, 
+rulesepcolor=\color{red!20!green!20!blue!20},
+stringstyle=\color{mymauve},     % string literal style
+title=\lstname,
+showspaces=false,
+showstringspaces=false
+}
+
+\title{}
+\author{}
+\date{}                                           % Activate to display a given date or no date
+
+% \addbibresource{bib.bib}
+\begin{document}
+
+\begin{flushleft}
+%%%%First page name, class, etc
+Shengjie Quan\\
+Professor: Adam C. Champion\\
+CSE 3461	 \\
+\today \\
+\end{flushleft}
+
+%%%%Title
+\begin{center}
+Response to Homework 3
+\end{center}
+
+%%%%Changes paragraph indentation to 0.5in
+\setlength{\parindent}{0.5in}
+
+\begin{singlespace}
+
+\begin{enumerate}
+
+\item 
+	There are four columns in the VC forwarding table. Names are as follow:
+	\begin{itemize}
+	\item Incoming Interface
+	\item Incoming VC \#
+	\item Outgoing Interface
+	\item Outgoing VC \#
+	\end{itemize}
+	Their meaning are intuitive by their names.
+
+	There are two columns in the datagram network forwarding table. Names are as follow:
+	\begin{itemize}
+	\item Destination Address Range
+	\item Link Interface
+	\end{itemize}
+	Their meaning are intuitive by their names.
+\item
+	\begin{itemize}
+	\item [a.] Below is the longest prefix forwarding table:
+		\begin{table}[h]
+			\centering
+			\label{my-label}
+			\begin{tabular}{|l|l|lll}
+			\cline{1-2}
+			Destination Address Range           & Link Interface &  &  &  \\ \cline{1-2}
+			11100000 00****** ******** ******** & 0              &  &  &  \\ \cline{1-2}
+			11100000 01000000 ******** ******** & 1              &  &  &  \\ \cline{1-2}
+			11100000 ******** ******** ******** & 2              &  &  &  \\ \cline{1-2}
+			11100001 0******* ******** ******** & 2              &  &  &  \\ \cline{1-2}
+			otherwise                           & 3              &  &  &  \\ \cline{1-2}
+			\end{tabular}
+		\end{table}
+	\item [b.] Below is the forwarding result:
+		\begin{table}[h]
+			\centering
+			\label{my-label}
+			\begin{tabular}{|l|l|lll}
+			\cline{1-2}
+			Address           & Link Interface &  &  &  \\ \cline{1-2}
+			11001000 10010001 01010001 01010101 & 3              &  &  &  \\ \cline{1-2}
+			11100001 01000000 11000011 00111100 & 2              &  &  &  \\ \cline{1-2}
+			11100001 10000000 00010001 01110111 & 3              &  &  &  \\ \cline{1-2}
+			\end{tabular}
+		\end{table}
+	\end{itemize}
+\item
+	In the situation that both Arnold and Bernard are behind a NAT, it is impossible to establish a TCP connection between them. A TCP connection requires a three way hand shake to start (by sending SYN packages). However, since both side are behind NAT, the router will have no idea which internal client to send the SYN package to without application-specific configuration. So the SYN will be dropped and the connection will not be established.
+
+\item
+	Below is the result of running Dijkstra's shortest-path algorithm starting from u:
+	\begin{table}[h]
+		\centering
+		\label{my-label}
+		\begin{tabular}{|l|l|l|l|l|l|l|l|}
+		\hline
+		Step & N             & D(t), p(t) & D(v), p(v) & D(w), p(w) & D(x), p(x) & D(y), p(y) & D(z), p(z) \\ \hline
+		0    & u             & 2, u       & 3, u       & 3, u       & $\infty$   & $\infty$   & $\infty$   \\ \hline
+		1    & u t           &            & 3, u       & 3, u       & $\infty$   & 9, t       & $\infty$   \\ \hline
+		2    & u t v         &            &            & 3, u       & 6, v       & 9, t       & $\infty$   \\ \hline
+		3    & u t v w       &            &            &            & 6, v       & 9, t       & $\infty$   \\ \hline
+		4    & u t v w x     &            &            &            &            & 9, t       & 14, x      \\ \hline
+		5    & u t v w x y   &            &            &            &            &            & 14, x      \\ \hline
+		6    & u t v w x y z &            &            &            &            &            &            \\ \hline
+		\end{tabular}
+	\end{table}
+\item The distance table is attached at the end.
+\item
+	Anycasting is a ``network addressing and routing methodology'' which allows ``nodes to access one of a collection of servers providing a well-known service, without manual configuration in each node of the list of servers''. The packages sent by a sender can be routed to ``the topologically nearest node in a group of potential receivers''. The packages are sent to several nodes but identified by the same destination address. One application is that anycasting simplified network configuration process. As mentioned previously anycasting allows packages to be sent to several nodes but identified by the same destination address. For example, a worldwide service (e.g. Youtube) need to deployed. In traditional way, DNS servers need to be configures at different places (e.g. Asia, Europe, America) in order to direct users to their nearest server. With the help of anycasting, we can just configure one IP address everywhere.
+\item
+	\begin{itemize}
+	\item[a.] Below is the routing table of stdlinux. Destination is the destination host or network. Gateway is the address of the gateway (* means not yet set). Genmask is the netmask of the destination network. In Flags, U means router is up, G means gateway is used, etc. MSS is the abbreviation of maximum segment size. The irtt is the  some kind of time to live (timed out setting). Iface is the Internet interface to which packages will be sent for this route.
+		\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+% /bin/netstat -r
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+164.107.113.0   *               255.255.255.0   U         0 0          0 eth0
+link-local      *               255.255.0.0     U         0 0          0 eth0
+default         hsrp113.cse.ohi 0.0.0.0         UG        0 0          0 eth0
+		\end{lstlisting}
+	\item[b.] The titles of each columns are the same. hsrp113.cse.ohio-state.edu is now resolved into 164.107.113.1. For *, it is resolved to 0.0.0.0. link-local is resolved to 169.254.0.0.
+		\begin{lstlisting}[basicstyle=\ttfamily\scriptsize]
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+164.107.113.0   0.0.0.0         255.255.255.0   U         0 0          0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0
+0.0.0.0         164.107.113.1   0.0.0.0         UG        0 0          0 eth0
+		\end{lstlisting}
+	\end{itemize}
+\end{enumerate}
+\end{singlespace}
+
+\clearpage
+
+\end{document}  

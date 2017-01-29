@@ -1,0 +1,46 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{nty}{nty}
+    \entry{wvlw}{online}{}
+      \name{labelname}{1}{}{%
+        {{uniquename=0,hash=9d118d1fc2f6d2c52c4a49bae3c4d008}{Bartolic}{B\bibinitperiod}{Igor}{I\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=9d118d1fc2f6d2c52c4a49bae3c4d008}{Bartolic}{B\bibinitperiod}{Igor}{I\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {The Best Wireless Internet}%
+      }
+      \strng{namehash}{9d118d1fc2f6d2c52c4a49bae3c4d008}
+      \strng{fullhash}{9d118d1fc2f6d2c52c4a49bae3c4d008}
+      \field{sortinit}{B}
+      \field{sortinithash}{1a3a21dbed09540af12d49a0b14f4751}
+      \field{labeltitle}{WiMAX vs LTE – What is a Better 4G Technology}
+      \true{singletitle}
+      \field{title}{WiMAX vs LTE – What is a Better 4G Technology}
+      \verb{url}
+      \verb hhttp://thebestwirelessinternet.com/wimax-vs-lte.html
+      \endverb
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+
