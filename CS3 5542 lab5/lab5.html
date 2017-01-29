@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Shengjie Quan Lab 5 Rendering a teapot in Json format with texture and environment map </title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+
+<!--  ************** Fragment Shader ************* --> 
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform mat4 uMMatrix; 
+uniform mat4 uVMatrix;
+uniform mat4 uNMatrix;
+uniform mat4 uV2WMatrix;
+uniform float diffuseBlendness;
+uniform float specularBlendness;
+uniform float reflectionBlendness;
+uniform float reflectionFresnel;
+
+uniform sampler2D diffuseTexture;
+uniform sampler2D bumpTexture;
+uniform sampler2D specularTexture;
+uniform samplerCube diffuseCubeMap; 
+uniform samplerCube specularCubeMap; 
+uniform samplerCube reflectionCubeMap;
+
+varying vec4 pos_in_eye;  //vertex position in eye space 
+varying vec3 v_normal;
+varying highp vec2 FtexCoord;
+
+void main(void) {
+        // eye vector V = e-p, where e is (0,0,0) 
+        vec3 eye_vector = normalize(-vec3(pos_in_eye));
+
+        vec4 bumpTex = texture2D(bumpTexture, FtexCoord);
+        vec3 normal = v_normal;
+        // normal = normalize(bumpTex.rgb * 2.0 - 1.0) * uNMatrix;
+        vec4 ambient = vec4(1.0, 1.0, 1.0, 1.0) * vec4(0.0, 0.0, 0.0, 1.0); 
+
+        vec4 texcolor = texture2D(diffuseTexture, FtexCoord);
+        vec3 world_normal = normalize(vec3(uV2WMatrix * vec4(normal, 0.0)));
+        vec4 color = mix(texcolor, ambient, 0.0);
+        color = mix(color, texcolor * textureCube(diffuseCubeMap, world_normal), diffuseBlendness);
+
+        vec4 specular;
+        vec3 view_vector = normalize(vec3(vec4(0,0,0,1)-pos_in_eye));
+        vec3 ref = normalize(reflect(-view_vector, normal));  // in eye space
+        ref = vec3(uV2WMatrix*vec4(ref,0));   // convert to world space
+            
+        vec4 vSpecular = textureCube(specularCubeMap, normalize(ref));
+        float rdotv = 1.0 - max(dot(ref, world_normal), 0.0);
+        color = mix(color, vSpecular * rdotv + color, specularBlendness);
+
+        vec4 reflectionColor = textureCube(reflectionCubeMap, normalize(ref));
+        color = mix(color, vSpecular*reflectionColor, reflectionBlendness+(1.0-reflectionBlendness)*pow(rdotv, reflectionFresnel));
+
+        gl_FragColor = color;
+        //gl_FragColor = textureCube(diffuseCubeMap, world_normal);
+    }
+</script>
+<script id="skybox-shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+uniform samplerCube skybox;
+
+varying vec3 TexCoords;
+
+void main()
+{    
+    gl_FragColor = textureCube(skybox, normalize(TexCoords));
+}
+
+</script>
+
+<!--  ************** Vertex Shader ************* --> 
+<script id="shader-vs" type="x-shader/x-vertex">
+    precision mediump float;
+    attribute vec3 aVertexPosition;
+    attribute vec3 aVertexNormal;
+    attribute vec2 aVertexTexCoords;
+    
+    uniform mat4 uMMatrix; 
+    uniform mat4 uVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uNMatrix; 
+    
+    varying vec4 pos_in_eye;  //vertex position in eye space
+    varying vec3 v_normal;
+    varying highp vec2 FtexCoord;
+
+    void main(void) {
+        // transform normal from local to eye space: normal matrix is the inverse transpose of the modelview matrix 
+        v_normal = normalize(vec3(uNMatrix*vec4(aVertexNormal,0.0)));
+
+        // transform the vertex position to eye space 
+        pos_in_eye = uVMatrix*uMMatrix*vec4(aVertexPosition, 1.0);
+
+        gl_Position = uPMatrix*uVMatrix*uMMatrix*vec4(aVertexPosition, 1.0);
+
+        FtexCoord = aVertexTexCoords; 
+    }
+</script>
+<script id="skybox-shader-vs" type="x-shader/x-vertex">
+precision mediump float;
+
+attribute vec3 aVertexPosition;
+
+uniform mat4 uVMatrix;
+uniform mat4 uPMatrix;
+
+varying vec3 TexCoords;
+void main()
+{
+    gl_Position = uPMatrix * uVMatrix * vec4(aVertexPosition*0.5, 1.0);  
+    TexCoords = aVertexPosition;
+} 
+</script>
+
+
+<script type="text/javascript" src="shaders_setup.js"></script>
+<script type="text/javascript" src="code12.js"></script>
+
+
+</head>
+
+
+<body onload="webGLStart();">
+    <canvas id="code12-canvas"style="border:none;"width="700"height="700"></canvas>
+
+    <div style="display:inline-block;">
+        <div style="position: absolute; z-index:1;">
+        <input id="diffuseMixSlider" type="range" min="0" max="100" value="100" onchange="onChangeBlend('diffuse', this);" />
+        <label for="diffuseMixSlider" style="color:#000000">Diffuse</label>
+        <br/>
+        <input id="specularMixSlider" type="range" min="0" max="100" value="80" onchange="onChangeBlend('specular', this);" />
+        <label for="specularMixSlider" style="color:#000000">Specular</label>
+        <br/>
+        <input id="reflectionMixSlider" type="range" min="0" max="5" value="3.8218205377" onchange="onChangeBlend('reflection', this);" />
+        <label for="reflectionMixSlider" style="color:#000000">Reflection</label>
+        <br/>
+        <input id="fresnelMixSlider" type="range" min="0" max="10" value="5" onchange="onChangeBlend('fresnel', this);" />
+        <label for="fresnelMixSlider" style="color:#000000">Fresnel</label>
+        </div>
+    </div>
+
+
+    <h4> Geometry:  </h4>
+    <button  onclick="geometry(0)"> POINTS</button>
+    <button  onclick="geometry(1)"> LINEs</button>
+    <button  onclick="geometry(2)"> FACES</button>
+
+    <div>
+    <h4>
+    Click on the left mouse button and move the coursor to rotate
+    </h4>
+    <button  onclick="redraw()"> Go Back! </button>
+    </div>
+    
+
+</body>
+
+</html>
+

@@ -1,0 +1,17 @@
+1) Using the program should be intuitive and similar to the example.
+   ( Click on the left mouse button and move the cursor to rotate ).
+   The four slide bars can be used to adjust parameters.
+2) The loading may takes some time. Click on the left mouse button and 
+   move the cursor to redraw the scene if a black screen is shown.
+3) Object is loaded from a json model named teapotHD.json . I generated
+   a new teapot json model that has more triangles and is smoother.
+4) Texture is implemented.
+5) Environment Cube Mapping is implemented. The object does not have a 
+   pure mirror reflective surface. The reflection is blended with the 
+   texture color according to concept of Fresnel equations. That is if 
+   the angle between normal vector and view vector is greater the surface 
+   will be more reflective. So reflection is more obvious at the edge.
+6) The program also implement image based lighting. The diffuse light 
+   and specular light coefficient is stored in two separate cubemaps 
+   and are looked up in shader.
+7) Webpage: http://web.cse.ohio-state.edu/~quans/lab5.html
